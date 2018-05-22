@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+  </head>
+  <body class="fg-white bg-dark">
+    <h1>Output Player</h1>
+    <div class="row">
+        <div class="cell-md-one-third">
+            <ul data-role="listview" data-view="content" data-on-node-click="play_video">
+                <li data-icon="<span class='mif-file-video fg-cyan'>" data-caption="test.mp4" ></li>
+                <li data-icon="<span class='mif-file-video fg-cyan'>" data-caption="Images"></li>
+                <li data-icon="<span class='mif-file-video fg-cyan'>" data-caption="Documents"></li>
+                <li data-icon="<span class='mif-file-video fg-cyan'>" data-caption="Downloads"></li>
+                <li data-icon="<span class='mif-file-video fg-cyan'>" data-caption="Desktop"></li>
+                <li data-icon="<span class='mif-file-video fg-cyan'>" data-caption="Video"></li>
+                <li data-icon="<span class='mif-file-video fg-cyan'>" data-caption="Images"></li>
+                <li data-icon="<span class='mif-file-video fg-cyan'>" data-caption="Documents"></li>
+                <li data-icon="<span class='mif-file-video fg-cyan'>" data-caption="Downloads"></li>
+                <li data-icon="<span class='mif-file-video fg-cyan'>" data-caption="Desktop"></li>
+            </ul>
+        </div>
+        <div class="cell-md-two-third">
+            <video data-role="video" id="player"
+                data-loop-icon="<span class='mif-loop2 fg-orange'></span>"
+                data-play-icon="<span class='mif-play fg-green'></span>"
+                data-pause-icon="<span class='mif-pause fg-blue'></span>"
+                data-stop-icon="<span class='mif-stop fg-red'></span>"
+                data-src="../output/test1.mp4"
+                data-controls-hide="1000">
+            </video>
+        </div>
+    </div>
+    <!-- jQuery first, then Metro UI JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+    <script>
+        function play_video(node, listview){
+            var player = document.getElementById('player');
+            console.log(node[0].innerText);
+            player.play("test.mp4");
+            //console.log(node[0].innerText);
+        }
+    </script>
+  </body>
+</html>

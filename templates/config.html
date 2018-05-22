@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+  </head>
+  <body class="bg-dark fg-white">
+    <div class="container-fluid no-overflow">
+        <h1>Config</h1>
+        <div class="row">
+            <div class="cell-md-one-third bg-white fg-black">
+                <h2 class="fg-red">Step 1:Choose A Camera</h2>
+                <hr class="bg-red"/>
+                <ul data-role="treeview">
+                    <li data-icon="<span class='mif-location-city'></span>" data-caption="洪山区">
+                        <ul>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Projects"></li>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Downloads"></li>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Desktop"></li>
+                        </ul>
+                    </li>
+                    <li data-icon="<span class='mif-location-city'></span>" data-caption="武昌区">
+                        <ul>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Projects"></li>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Downloads"></li>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Desktop"></li>
+                        </ul>
+                    </li>
+                    <li data-icon="<span class='mif-location-city'></span>" data-caption="汉阳区">
+                        <ul>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Projects"></li>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Downloads"></li>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Desktop"></li>
+                        </ul>
+                    </li>
+                    <li data-icon="<span class='mif-location-city'></span>" data-caption="青山区">
+                        <ul>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Projects"></li>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Downloads"></li>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Desktop"></li>
+                        </ul>
+                    </li>
+                    <li data-icon="<span class='mif-location-city'></span>" data-caption="东西湖区">
+                        <ul>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Projects"></li>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Downloads"></li>
+                            <li data-icon="<span class='mif-truck'></span>" data-caption="Desktop"></li>
+                        </ul>
+                    </li>
+                </ul>
+                <h2 class="fg-cyan">Step 2:Draw Lines</h2>
+                <hr class="bg-cyan"/>
+                <ul data-role="listview" data-view="tiles" class="fg-black" data-on-node-click="onNodeClick">
+                    <li id="polygons" data-icon="<span class='mif-pencil fg-red'>" data-caption="Polygons">多边形区域</li>
+                    <li id="line1" data-icon="<span class='mif-pencil fg-yellow'>" data-caption="Line">分界线1</li>
+                    <li id="line2" data-icon="<span class='mif-pencil fg-green'>" data-caption="Line">分界线2</li>
+                    <li id="rectangle" data-icon="<span class='mif-pencil fg-blue'>" data-caption="Rectangle">矩形区域</li>
+                </ul>
+            </div>
+            <div class="cell-md-two-third">
+                <canvas id='cvs' width="1280" height="720" oncontextmenu="myfunction(event)"></canvas>
+                <div style="display: none;">
+                    <img id="screenshoot" onload="drawimage(this)" src="{{ url_for('static', filename='images/0.jpg') }}" width="1280" height="720"/>
+                </div>
+            </div>
+        </div>
+        <div class="cell-3 offset-9 d-flex flex-justify-between">
+            <!--<button class="image-button warning large">
+                <span class="mif-undo icon"></span>
+                <span class="caption">Undo</span>
+            </button>-->
+            <button class="image-button alert large" onclick="clearcanvas()">
+                <span class="mif-cross icon"></span>
+                <span class="caption">Clear</span>
+            </button>
+            <button class="image-button success large" onclick="post_points()"
+                <span class="mif-checkmark icon"></span>
+                <span class="caption">Submit</span>
+            </button>
+        </div>
+    </div>
+    <!-- jQuery first, then Metro UI JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script>
+        var cvs = document.getElementById('cvs');
+        var ctx = cvs.getContext('2d');
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = 'red';
+        var image = document.getElementById('screenshoot');
+        /*image.onload(function(){
+            ctx.drawImage(image, 0, 0,1280 ,720);
+        });*/
+        var start, former, end, isdrawing = false;
+        var drawtype = null;
+        var polygons = [];
+        d3.select('#cvs')
+        .on('click', function(){
+            console.log(d3.event);
+            switch(drawtype){
+                case('polygons'):
+                    point = d3.mouse(this);
+                    if(d3.event.button==0){
+                        //鼠标左键
+                        polygons.push(point);
+                        if(isdrawing){
+                            ctx.beginPath();
+                            ctx.moveTo(former[0],former[1]);
+                            ctx.lineTo(point[0],point[1]);
+                            ctx.stroke();
+                            former = point;
+                        }else{
+                            isdrawing = true;
+                            start = point;
+                            former = point;
+                        }
+                    }
+                    break;
+                default:
+                    Metro.dialog.create({
+                        title: "提示",
+                        content: "<div>请先选择一种配置区域</div>",
+                        actions: [
+                            {
+                                caption: "OK",
+                                cls: "js-dialog-close"
+                            }
+                        ]
+                    });
+            }
+            /*
+            if(isdrawing){
+                isdrawing = false;
+                end = d3.mouse(this);
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = 'red';
+                ctx.moveTo(start[0],start[1]);
+                ctx.lineTo(end[0],end[1]);
+                ctx.stroke();
+            }
+            else{
+                isdrawing = true;
+                start = d3.mouse(this);
+                console.log(d3.event);
+                console.log("start"+start);
+            }*/
+        });
+        function drawimage(){
+            ctx.drawImage(image, 0, 0,1280 ,720);
+        }
+        function myfunction(event){
+            if(isdrawing && drawtype == 'polygons'){
+                event.returnValue=false;
+                ctx.beginPath();
+                ctx.moveTo(start[0],start[1]);
+                ctx.lineTo(former[0],former[1]);
+                ctx.stroke();
+                isdrawing = false;
+            }
+            return false;
+        }
+        function onNodeClick(node, listview){
+            drawtype = node[0].id
+        };
+        function clearcanvas(){
+            polygons = [];
+            start = null;
+            former = null;
+            ctx.drawImage(image, 0, 0,1280 ,720);
+        };
+        function post_points(){
+            var ratio = 2/3;
+            for(var j=0; j < polygons.length; j++){
+                polygons[j][0] /= ratio;
+                polygons[j][1] /= ratio;
+            }
+            var data = {'name':'test','polygons':polygons};
+            $.post(
+                '/save_polygons',
+                JSON.stringify(data),
+                function(data, status){
+                    alert("Data:"+data+"\nStatus"+status);
+                }
+            );
+        }
+    </script>
+  </body>
+</html>

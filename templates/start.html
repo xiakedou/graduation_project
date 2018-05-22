@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- Metro 4 -->
+    <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+    <link href="{{ url_for('static', filename='start.css') }}" rel="stylesheet">
+  </head>
+  <body class="bg-dark fg-white">
+    <div class="container-fluid start-screen no-overflow">
+        <h1 class="start-screen-title">Start</h1>
+        <div class="tiles-area">
+            <div class="tiles-grid tiles-group size-2 fg-white" data-group-title="General">
+                <div data-role="tile" class="bg-orange fg-white" data-size="wide" data-effect="hover-zoom-right">
+                    <div class="slide-front">
+                        <span class="mif-enter icon"></span>
+                    </div>
+                    <div class="slide-back d-flex flex-justify-center flex-align-center p-4 op-mauve">
+                        <p class="text-center">
+                            Login to have a try!
+                        </p>
+                    </div>
+                    <span class="branding-bar">Login</span>
+                </div>
+                <div data-role="tile" data-size="wide" data-effect="hover-zoom-right">
+                    <div class="slide-front">
+                        <span class="mif-clipboard icon"></span>
+                    </div>
+                    <div class="slide-back d-flex flex-justify-center flex-align-center p-4 op-mauve">
+                        <p class="text-center">
+                            Not A User Yet?
+                        </p>
+                    </div>
+                    <span class="branding-bar">Register</span>
+                </div>
+                <a href="{{ url_for('config_camera') }}" data-role="tile" class="bg-indigo fg-white">
+                    <span class="mif-pencil icon"></span>
+                    <span class="branding-bar">Config</span>
+                </a>
+                <a href="{{ url_for('monitor') }}" data-role="tile" class="bg-indigo fg-white">
+                    <span class="mif-display icon"></span>
+                    <span class="branding-bar">Monitor</span>
+                </a>
+                <div data-role="tile" class="bg-teal fg-white" onclick="help_dialog()">
+                    <span class="mif-question icon"></span>
+                    <span class="branding-bar">Help</span>
+                </div>
+                <div data-role="tile" class="bg-brown fg-white" onclick="aboutme_dialog()">
+                    <span class="mif-info icon"></span>
+                    <span class="branding-bar">About Me</span>
+                </div>
+            </div>
+
+            <div class="tiles-grid tiles-group size-2 fg-white" data-group-title="Project">
+                <a href="https://github.com/olton/Metro-UI-CSS" data-role="tile" data-size="wide" class="bg-indigo fg-white">
+                    <span class="mif-github icon"></span>
+                    <span class="branding-bar">Github</span>
+                </a>
+                <div data-role="tile" class="bg-cyan fg-white" data-size="wide">
+                    <span class="mif-file-text icon"></span>
+                    <span class="branding-bar">Read Me</span>
+                </div>
+                <div data-role="tile" class="bg-green fg-white" onclick="author_dialog()">
+                    <span class="mif-user icon"></span>
+                    <span class="branding-bar">Author</span>
+                </div>
+                <div data-role="tile" class="bg-blue fg-white" onclick="contact_dialog()">
+                    <span class="mif-envelop icon"></span>
+                    <span class="branding-bar">Contact</span>
+                </div>
+            </div>
+
+            <div class="tiles-grid tiles-group size-2 fg-white" data-group-title="Reference">
+                <a href="http://flask.pocoo.org/" data-role="tile" data-size="wide" class="bg-teal fg-white">
+                    <img src="{{ url_for('static',filename='images/flask-logo.png') }}" class="icon">
+                    <span class="branding-bar">Flask:A microframework for Python</span>
+                </a>
+                <a href="https://getmetroui.com/index.html" data-role="tile" data-size="wide" class="bg-brown fg-white">
+                    <img src="{{ url_for('static', filename='images/metro4-logo.png') }}" class="icon">
+                    <span class="branding-bar">Merto 4:Popular HTML,CSS and JS library</span>
+                </a>
+                <a href="https://docs.opencv.org/3.4.0/d7/d8b/tutorial_py_face_detection.html" data-role="tile" data-size="wide" class="bg-red fg-white">
+                    <span class="mif-earth icon"></span>
+                    <span class="branding-bar">Haar-cascade Detection in OpenCV</span>
+                </a>
+                <a href="https://github.com/sturkmen72/C4-Real-time-pedestrian-detection" data-role="tile" class="bg-indigo fg-white">
+                    <span class="mif-github icon"></span>
+                    <span class="branding-bar">C4 Human Detector</span>
+                </a>
+                <a href="http://www.robots.ox.ac.uk/%7Ejoao/circulant/" data-role="tile" class="bg-orange fg-white">
+                    <span class="mif-earth icon"></span>
+                    <span class="branding-bar">KCF Tracker</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <!-- jQuery first, then Metro UI JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+    <script src="{{ url_for('static', filename='start.js') }}"></script>
+  </body>
+</html>
